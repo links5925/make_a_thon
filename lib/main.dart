@@ -7,6 +7,7 @@ import 'package:safety/log.dart';
 import 'firebase_options.dart';
 import 'qr.dart';
 import 'running.dart';
+import 'camera.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,9 +43,12 @@ class _MainWidgetState extends State<MainWidget> {
       initialRoute: '/',
       routes: {
         '/': (context) => MainPage(),
-        '/QR': (context) => QR(),
+        '/QR_start': (context) => QR_start(),
+        '/QR_end': (context) => QR_end(),
         '/running': (context) => running(),
-        '/info': (context) => log()
+        '/info': (context) => log(),
+        // '/camera': (context) => camera(),
+        '/real_camera': (context) => real_camera()
       },
     );
   }
@@ -58,18 +62,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  dynamic test_data = '데이터 수신 전';
-
-  void readData() {
-    final userCollectionReference =
+  dynamic a = '';
+  Future<void> get_data() async {
+    final DocumentReference documentRef =
         FirebaseFirestore.instance.collection("users").doc("user1");
-    userCollectionReference.get().then((value) => {
-          setState(() {
-            test_data = value.data(); //type = Map<String, dynamic>
-            // test_data = test_data.runtimeType;
-          }),
-          print(value.data())
-        });
+    DocumentSnapshot snapshot = await documentRef.get();
+    if (snapshot.exists) {
+      dynamic data = snapshot.data();
+      setState(() {
+        a = data;
+      });
+    }
   }
 
   @override
@@ -89,15 +92,18 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: Text('정보')),
                 Container(height: 30),
-                Text('$test_data'),
-                ElevatedButton(
-                    onPressed: readData, child: const Text('데이터 가져오기')),
-                Container(height: 30),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/QR');
+                      Navigator.pushNamed(context, '/QR_start');
                     },
-                    child: Text('QR'))
+                    child: Text('QR')),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/real_camera');
+                      // get_data();
+                    },
+                    child: Text('test')),
+                Text('$a')
               ]),
         ],
       ),

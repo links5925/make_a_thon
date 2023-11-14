@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,8 +9,11 @@ import 'firebase_options.dart';
 import 'qr.dart';
 import 'running.dart';
 import 'camera.dart';
+import 'ai.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -37,6 +41,11 @@ class MainWidget extends StatefulWidget {
 
 class _MainWidgetState extends State<MainWidget> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -47,8 +56,7 @@ class _MainWidgetState extends State<MainWidget> {
         '/QR_end': (context) => QR_end(),
         '/running': (context) => running(),
         '/info': (context) => log(),
-        // '/camera': (context) => camera(),
-        '/real_camera': (context) => real_camera()
+        '/real_camera': (context) => real_camera(),
       },
     );
   }
@@ -99,7 +107,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text('QR')),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/real_camera');
+                      Navigator.pushNamed(context, '/a');
                       // get_data();
                     },
                     child: Text('test')),

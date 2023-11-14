@@ -181,7 +181,7 @@ class _real_cameraState extends State<real_camera> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: check ? Color.fromRGBO(252, 156, 159, 1) : Colors.blue,
         onPressed: () {
-          if (check) { 
+          if (check) {
             upload_user_data().then((value) {
               Navigator.pushNamed(context, '/');
             });

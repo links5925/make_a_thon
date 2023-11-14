@@ -21,7 +21,7 @@ class _runningState extends State<running> {
     DocumentReference newDocumentRef = historyCollection.doc();
 
     // 문서에 저장할 데이터
-    Map<String, dynamic> data = {'datetime': DateTime.now(), 'illegal': false};
+    Map<String, dynamic> data = {'datetime': DateTime.now(), 'illegal': false, 'upright':true};
 
     await newDocumentRef.set(data); // 문서를 생성하고 데이터 저장
 

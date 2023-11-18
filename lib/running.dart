@@ -58,12 +58,12 @@ class _runningState extends State<running> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      body: Stack(
+        children: [Image.asset(
+                    'assets/image.PNG',height:MediaQuery.of(context).size.height ),
           Column(
             children: [
-              SizedBox(height: 70),
+              SizedBox(height: 40),
               Container(
                 decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.6),
@@ -72,40 +72,27 @@ class _runningState extends State<running> {
                 alignment: Alignment.center,
                 height: 50,
                 child: Text(
-                  '현재 위치 :인천광역시 미추홀구 용현1. 4동',
+                  '현재 위치 :인천광역시 미추홀구 용현1.4동',
                   style: TextStyle(
-                      fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.8)),
+                      fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.8),fontWeight: FontWeight.w600),
                 ),
-              ),
-              SizedBox(height: 60),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Expanded(
-                  child: Image.asset(
-                    width: 300,
-                    height: 300,
-                    'assets/image.PNG',
-                  ),
-                ),
-              ),
-              SizedBox(height: 50),
+              ),Spacer(),
               Container(
                 alignment: Alignment.center,
                 height: 60,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(242, 156, 159, 0.4),
+                    color: Color.fromRGBO(240, 174, 168, 1),
                     borderRadius: BorderRadius.circular(10)),
                 child: Text(
                   '반납 방식을 선택해주세요',
                   style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 0.9), fontSize: 20),
+                      color: Color.fromRGBO(255, 255, 255, 0.9), fontSize: 25),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 30),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                       height: 50,
@@ -120,12 +107,12 @@ class _runningState extends State<running> {
                                 shadowColor: MaterialStateProperty.all(
                                     Colors.transparent),
                                 backgroundColor: MaterialStateProperty.all(
-                                    Color.fromRGBO(242, 156, 159, 0.6))),
+                                    Color.fromRGBO(240, 174, 168, 1))),
                             onPressed: () {
                               Navigator.pushNamed(context, '/QR_end');
                             },
                             child: Text(
-                              'QR 인식',
+                              'QR 인식',style: TextStyle(fontSize: 20),
                             )),
                       )),
                   SizedBox(width: 40),
@@ -142,7 +129,7 @@ class _runningState extends State<running> {
                                 shadowColor: MaterialStateProperty.all(
                                     Colors.transparent),
                                 backgroundColor: MaterialStateProperty.all(
-                                    Color.fromRGBO(242, 156, 159, 0.6))),
+                                    Color.fromRGBO(240, 174, 168, 1))),
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -151,13 +138,14 @@ class _runningState extends State<running> {
                                           AIwidget(cameras: cameras)));
                             },
                             child: Text(
-                              '카메라',
+                              '카메라',style: TextStyle(fontSize: 20)
                             )),
-                      ))
+                      )),
                 ],
-              ),
+              ),SizedBox(height: 50)
             ],
           ),
+                
         ],
       ),
     );

@@ -21,6 +21,8 @@ dependencies:
   firebase_ml_model_downloader:
   image:
   tflite_v2: ^1.0.0
+  path_provider:
+  flutterfire_cli:
 
 dev_dependencies:
   flutter_test:
@@ -32,3 +34,7 @@ flutter:
   assets: 
     - assets/model_unquant.tflite
     - assets/labels.txt
+    - assets/image.PNG
+    - assets/logo.png
+    - assets/r1.png
+    - assets/ve.png    

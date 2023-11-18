@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '300993421695',
     projectId: 'safety-first-8973c',
     authDomain: 'safety-first-8973c.firebaseapp.com',
+    databaseURL: 'https://safety-first-8973c-default-rtdb.firebaseio.com',
     storageBucket: 'safety-first-8973c.appspot.com',
     measurementId: 'G-ESKVB2P29G',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:300993421695:android:c632bd91871cbb1bfdba4a',
     messagingSenderId: '300993421695',
     projectId: 'safety-first-8973c',
+    databaseURL: 'https://safety-first-8973c-default-rtdb.firebaseio.com',
     storageBucket: 'safety-first-8973c.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:300993421695:ios:eaad2c9e089fdcaefdba4a',
     messagingSenderId: '300993421695',
     projectId: 'safety-first-8973c',
+    databaseURL: 'https://safety-first-8973c-default-rtdb.firebaseio.com',
     storageBucket: 'safety-first-8973c.appspot.com',
     iosBundleId: 'com.example.safety',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:300993421695:ios:06438f8431359e0dfdba4a',
     messagingSenderId: '300993421695',
     projectId: 'safety-first-8973c',
+    databaseURL: 'https://safety-first-8973c-default-rtdb.firebaseio.com',
     storageBucket: 'safety-first-8973c.appspot.com',
     iosBundleId: 'com.example.safety.RunnerTests',
   );

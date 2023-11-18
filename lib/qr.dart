@@ -75,91 +75,17 @@ class _QR_startState extends State<QR_start> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'QR 코드 스캔',
+          style: TextStyle(color: Colors.black, fontSize: 18),
+        ),
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Data: ${result!.code} ') //Barcode Type: ${describeEnum(result!.format)}
-                  else
-                    const Text('Scan a code'),
-                  Text('check: ${check}'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      // Container(
-                      //   margin: const EdgeInsets.all(8),
-                      //   child: ElevatedButton(
-                      //       onPressed: () async {
-                      //         await controller?.flipCamera();
-                      //         setState(() {});
-                      //       },
-                      //       child: FutureBuilder(
-                      //         future: controller?.getCameraInfo(),
-                      //         builder: (context, snapshot) {
-                      //           if (snapshot.data != null) {
-                      //             return Text(
-                      //                 'Camera facing ${describeEnum(snapshot.data!)}');
-                      //           } else {
-                      //             return const Text('loading');
-                      //           }
-                      //         },
-                      //       )),
-                      // )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      // Container(
-                      //   margin: const EdgeInsets.all(8),
-                      //   child: ElevatedButton(
-                      //     onPressed: () async {
-                      //       await controller?.resumeCamera();
-                      //     },
-                      //     child: const Text('resume',
-                      //         style: TextStyle(fontSize: 20)),
-                      //   ),
-                      // )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -170,18 +96,60 @@ class _QR_startState extends State<QR_start> {
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-          borderColor: Color.fromRGBO(242, 156, 159, 1),
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    return Stack(
+      children: [
+        QRView(
+          key: qrKey,
+          onQRViewCreated: _onQRViewCreated,
+          overlay: QrScannerOverlayShape(
+              borderColor: Color.fromRGBO(242, 156, 159, 1),
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: scanArea),
+          onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Text(
+                    'QR코드 위치를 확인하여\n 스캔합니다',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 250),
+                Container(
+                  margin: const EdgeInsets.only(top: 80),
+                  child: Column(
+                    children: [
+                      IconButton(
+                          onPressed: () async {
+                            await controller?.toggleFlash();
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            Icons.flash_on,
+                            color: Colors.white,
+                            size: 50,
+                          )),
+                      SizedBox(height: 10),
+                      Text(
+                        '     Flash',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -309,87 +277,6 @@ class _QR_endState extends State<QR_end> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Data: ${result!.code}') //Barcode Type: ${describeEnum(result!.format)}
-                  else
-                    const Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      // Container(
-                      //   margin: const EdgeInsets.all(8),
-                      //   child: ElevatedButton(
-                      //       onPressed: () async {
-                      //         await controller?.flipCamera();
-                      //         setState(() {});
-                      //       },
-                      //       child: FutureBuilder(
-                      //         future: controller?.getCameraInfo(),
-                      //         builder: (context, snapshot) {
-                      //           if (snapshot.data != null) {
-                      //             return Text(
-                      //                 'Camera facing ${describeEnum(snapshot.data!)}');
-                      //           } else {
-                      //             return const Text('loading');
-                      //           }
-                      //         },
-                      //       )),
-                      // )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      // Container(
-                      //   margin: const EdgeInsets.all(8),
-                      //   child: ElevatedButton(
-                      //     onPressed: () async {
-                      //       await controller?.resumeCamera();
-                      //     },
-                      //     child: const Text('resume',
-                      //         style: TextStyle(fontSize: 20)),
-                      //   ),
-                      // )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -400,16 +287,60 @@ class _QR_endState extends State<QR_end> {
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-          borderColor: Color.fromRGBO(242, 156, 159, 1),
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    return Stack(
+      children: [
+        QRView(
+          key: qrKey,
+          onQRViewCreated: _onQRViewCreated,
+          overlay: QrScannerOverlayShape(
+              borderColor: Color.fromRGBO(242, 156, 159, 1),
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: scanArea),
+          onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Text(
+                    'QR코드 위치를 확인하여\n 스캔합니다',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 250),
+                Container(
+                  margin: const EdgeInsets.only(top: 80),
+                  child: Column(
+                    children: [
+                      IconButton(
+                          onPressed: () async {
+                            await controller?.toggleFlash();
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            Icons.flash_on,
+                            color: Colors.white,
+                            size: 50,
+                          )),
+                      SizedBox(height: 10),
+                      Text(
+                        '     Flash',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -424,7 +355,7 @@ class _QR_endState extends State<QR_end> {
       if (result?.code == 'Safety-first-end') {
         await controller.pauseCamera().then((value) {
           upload_user_data();
-          Navigator.pushNamed(context, '/');
+          Navigator.pushNamed(context, '/end');
         });
       }
     });

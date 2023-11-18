@@ -1,10 +1,30 @@
 {
   "project_info": {
     "project_number": "300993421695",
+    "firebase_url": "https://safety-first-8973c-default-rtdb.firebaseio.com",
     "project_id": "safety-first-8973c",
     "storage_bucket": "safety-first-8973c.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300993421695:android:fd1a76bdfe6af6e8fdba4a",
+        "android_client_info": {
+          "package_name": "com.example.final_boru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0U2n9yO9ukKxhvDvYFCykGhzN4w1Uz8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:300993421695:android:c632bd91871cbb1bfdba4a",

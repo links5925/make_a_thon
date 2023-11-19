@@ -20,7 +20,6 @@ class _AIwidgetState extends State<AIwidget> {
   double confidence = 0;
   double index = 0;
   bool isDetecting = false;
-  bool check_bool = false;
   dynamic test_data;
   bool check = false;
 
@@ -59,8 +58,18 @@ class _AIwidgetState extends State<AIwidget> {
 
   Future<void> upload_user_data() async {
     int point = 1;
-    if (check_bool) {
-      point -= 1;
+    final data = FirebaseFirestore.instance
+        .collection("vehicles")
+        .doc("vehicle1")
+        .collection("history")
+        .doc("stable");
+
+    DocumentSnapshot s = await data.get();
+    if (s.exists) {
+      test_data = s.data();
+      if (test_data['safe']) {
+        point += 1;
+      }
     }
 
     final userLogReference =
@@ -69,11 +78,12 @@ class _AIwidgetState extends State<AIwidget> {
     if (snapshot.exists) {
       test_data = snapshot.data();
     }
-    String time = DateFormat("yyyy-MM-dd").format(DateTime.now());
-    userLogReference.collection('history').doc().set({
-      "datalog": point,
-      "datetime": time,
-    });
+    String day = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    String hour = DateFormat("HH:mm").format(DateTime.now());
+    userLogReference
+        .collection('history')
+        .doc()
+        .set({"datalog": point, "day": day, "hour": hour, "cost": 1000});
 
     dynamic new_data = {
       "name": test_data["name"],
@@ -88,25 +98,58 @@ class _AIwidgetState extends State<AIwidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.blueGrey,
-        body: Column(
-          children: [
-            Camera(widget.cameras, setRecognitions),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor:
-              check ? Color.fromRGBO(252, 156, 159, 1) : Colors.blue,
-          onPressed: () {
-            if (check) {
-              upload_user_data().then((value) {
-                Navigator.pushNamed(context, '/');
-              });
-            }
-          },
-          child: Icon(Icons.camera_alt),
-        ));
+    return WillPopScope(
+      onWillPop: () {
+        return Future(() => false);
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white.withOpacity(0.95),
+            centerTitle: true,
+            title: Text(
+              '바른 주차문화 만들기',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          backgroundColor: Colors.white.withOpacity(0.9),
+          body: Column(
+            children: [
+              Camera(widget.cameras, setRecognitions),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  children: [
+                    SizedBox(height: 200),
+                    Text(
+                      '촬영버튼이 분홍색으로 변하면 눌러주세요!',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.8),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor:
+                check ? Color.fromRGBO(252, 156, 159, 1) : Colors.blue,
+            onPressed: () {
+              if (check) {
+                upload_user_data().then((value) {
+                  Navigator.pushNamed(context, '/end');
+                });
+              }
+            },
+            child: Icon(Icons.camera_alt),
+          )),
+    );
   }
 }
 

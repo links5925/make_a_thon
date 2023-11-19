@@ -45,33 +45,66 @@ class _logState extends State<log> {
     return Scaffold(
       body: Column(children: [
         SizedBox(height: 50),
-        Text(
-          '이용내역',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            '   이용내역',
+            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500),
+          ),
         ),
-        SizedBox(height: 30),
-        Container(
-          alignment: Alignment.topCenter,
-          child: data_reading
-              ? Text(
-                  '${user_point_data['point']}point',
-                  style: TextStyle(
-                      fontSize: 20, color: Color.fromRGBO(252, 156, 159, 1)),
-                )
-              : Container(),
+        SizedBox(height: 10),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            alignment: Alignment.topCenter,
+            child: data_reading
+                ? Column(
+                    children: [
+                      Divider(thickness: 2),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            '     PITCH: ',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromRGBO(252, 156, 159, 1)),
+                          ),
+                          Text(
+                            '${user_point_data['point']}P',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromRGBO(252, 156, 159, 1)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Container(),
+          ),
         ),
-        // Text('${user_log_data}'),
-        SizedBox(height: 20),
+        SizedBox(height: 3),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '       최근 3개월 이내의 데이를 조회한 결과입니다',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
         Column(
           children: [
-            SizedBox(height: 20),
             Container(
               height: 500,
               child: ListView.builder(
                   itemCount: user_log_data.length,
                   itemBuilder: (BuildContext context, int i) {
-                    return makesomething(context, user_log_data[i]['datetime'],
-                        user_log_data[i]['datalog']);
+                    return makesomething(
+                        context,
+                        user_log_data[i]['day'],
+                        user_log_data[i]['hour'],
+                        user_log_data[i]['datalog'],
+                        user_log_data[i]['cost']);
                   }),
             ),
           ],
@@ -80,29 +113,59 @@ class _logState extends State<log> {
     );
   }
 
-  Widget makesomething(BuildContext context, String time, int datalog) {
+  Widget makesomething(
+      BuildContext context, String day, String time, int datalog, int cost) {
     return Column(
       children: [
         Container(
-          color: Colors.white,
-          padding: EdgeInsets.only(right: 20, left: 15),
-          height: 60,
+          width: MediaQuery.sizeOf(context).width * 0.9,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              border: Border.all(color: Colors.grey.withOpacity(0.6))),
+          padding: EdgeInsets.only(right: 20, left: 5),
+          height: 80,
           child: Row(
             children: [
-              Text(
-                time,
-                style: TextStyle(color: Colors.black),
+              SizedBox(width: 5),
+              Image.asset(
+                'assets/ve.png',
+                width: 30,
+              ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    day,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    time,
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
               ),
               Spacer(),
-              Text(
-                '$datalog',
-                style: TextStyle(
-                    color: Color.fromRGBO(252, 156, 159, 1), fontSize: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('${cost}₩'),
+                  SizedBox(height: 7),
+                  Text(
+                    'PITCH : +${datalog}P',
+                    style: TextStyle(
+                        color: Color.fromRGBO(252, 156, 159, 1), fontSize: 14),
+                  ),
+                ],
               )
             ],
           ),
         ),
-        SizedBox(height: 5)
+        SizedBox(height: 15)
       ],
     );
   }

@@ -198,7 +198,6 @@ class _QR_endState extends State<QR_end> {
   QRViewController? controller;
   dynamic test_data;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  String? Document_id;
   bool check_bool = false;
 
   Future<void> get_bool_data() async {
@@ -206,27 +205,20 @@ class _QR_endState extends State<QR_end> {
         .collection("vehicles")
         .doc("vehicle1")
         .collection("history")
-        .doc(Document_id);
+        .doc("stable");
     DocumentSnapshot snapshot = await documentRef.get();
     if (snapshot.exists) {
       dynamic data = snapshot.data();
       setState(() {
-        check_bool = data['illegal'];
+        check_bool = data["safe"];
       });
     }
-  }
-
-  Future<void> get_docu_id() async {
-    SharedPreferences Docu_ID = await SharedPreferences.getInstance();
-    setState(() {
-      Document_id = Docu_ID.getString('ID');
-    });
   }
 
   Future<void> upload_user_data() async {
     int point = 1;
     if (check_bool) {
-      point -= 1;
+      point += 1;
     }
 
     final userLogReference =
@@ -235,11 +227,12 @@ class _QR_endState extends State<QR_end> {
     if (snapshot.exists) {
       test_data = snapshot.data();
     }
-    String time = DateFormat("yyyy-MM-dd").format(DateTime.now());
-    userLogReference.collection('history').doc().set({
-      "datalog": point,
-      "datetime": time,
-    });
+    String day = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    String hour = DateFormat("HH:mm").format(DateTime.now());
+    userLogReference
+        .collection('history')
+        .doc()
+        .set({"datalog": point, "day": day, "hour": hour, "cost": 1000});
 
     dynamic new_data = {
       "name": test_data["name"],
@@ -255,11 +248,7 @@ class _QR_endState extends State<QR_end> {
   @override
   void initState() {
     super.initState();
-    get_docu_id().then(
-      (value) {
-        get_bool_data();
-      },
-    );
+    get_bool_data();
   }
 
   @override

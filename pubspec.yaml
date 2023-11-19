@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker:
-  geolocator:
   firebase_core:
   cloud_firestore:
   camera:
@@ -36,5 +35,13 @@ flutter:
     - assets/labels.txt
     - assets/image.PNG
     - assets/logo.png
+    - assets/ve.png
+    - assets/receipt.png
+    - assets/r0.png
     - assets/r1.png
-    - assets/ve.png    
+    - assets/r2.png
+    - assets/r3.png
+    - assets/r4.png
+    - assets/r5.png
+    - assets/r5_2.png
+    - assets/r5b.png

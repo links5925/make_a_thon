@@ -264,16 +264,12 @@ class _MainPageState extends State<MainPage> {
               SizedBox(height: 10),
               Row(
                 children: [
-                  Container(
-                    width: 15,
-                    height: 15,
-                    decoration: ShapeDecoration(
-                      color: Colors.amber[400],
-                      shape: OvalBorder(),
-                    ),
+                  Icon(
+                    Icons.wallet_giftcard_sharp,
+                    color: Colors.amber[400],
                   ),
                   Text(
-                    benefit,
+                    '혜택: ${benefit}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
